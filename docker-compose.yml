@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  approuterdata:
+    image: redpill/approuter-data
+
+  discovery:
+    image: consul
+    environment:
+      - CONSUL_BIND_INTERFACE=eth0
+    ports:
+      - 8500:8500
+
+  router:
+    image: seges/nginx-consul:1.9.0
+    volumes_from:
+      - approuterdata
+    ports:
+      - 8080:80
+      - 8443:443
